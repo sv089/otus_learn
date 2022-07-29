@@ -14,7 +14,7 @@ df_codes = spark.read.csv(
     offence_codes,
     inferSchema=True, header=True).dropDuplicates()
 
-df_codes_sp = df_codes.withColumn('NAME', split(df_codes['name'], '-').getItem(0))
+df_codes_sp = df_codes.withColumn('NAME', split(df_codes['name'], ' - ').getItem(0))
 
 crimeStatsWithBroadcast = df_crimes.join(broadcast(df_codes_sp), df_crimes.OFFENSE_CODE == df_codes_sp.CODE)
 
